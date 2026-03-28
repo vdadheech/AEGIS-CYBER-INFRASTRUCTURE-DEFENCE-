@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS — Cyber Infrastructure Defense</title>
+    <title>AEGIS | Cyber Infrastructure Defense Console</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/map.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,18 +16,14 @@
     <!-- ═══════════════════ HEADER ═══════════════════ -->
     <header id="soc-header">
         <div class="header-left">
-            <span class="header-logo">🛡️</span>
-            <div>
-                <div class="header-title">AEGIS <span class="header-sub">/ COMMAND CENTER</span></div>
-                <div class="header-tagline">Nexus City Cyber Infrastructure Defense Console</div>
-            </div>
+            <img src="logo.jpeg" alt="AEGIS" class="header-logo">
         </div>
         <div class="header-right">
             <div class="threat-counter" id="threat-counter">
-                <span class="tc-label">THREATS</span>
+                <span class="tc-label">ACTIVE THREATS</span>
                 <span class="tc-count" id="tc-active">--</span>
             </div>
-            <div class="status-indicator" id="system-status">● SYSTEM ONLINE</div>
+            <div class="status-indicator" id="system-status">SYSTEM ONLINE</div>
             <div class="clock" id="live-clock"></div>
         </div>
     </header>
@@ -35,26 +31,26 @@
     <!-- ═══════════════════ MAIN GRID ═══════════════════ -->
     <main class="soc-grid">
 
-        <!-- ── COLUMN LEFT ── -->
+        <!-- ── LEFT COLUMN ── -->
         <div class="col-left">
 
-            <!-- Schema Console (collapsible drawer) -->
+            <!-- Schema Console -->
             <div class="panel schema-drawer" id="schema-drawer">
                 <div class="panel-header" id="schema-toggle">
-                    <span class="panel-title">⌨ DYNAMIC SCHEMA CONSOLE</span>
+                    <span class="panel-title">SCHEMA CONSOLE</span>
                     <span class="drawer-arrow" id="schema-arrow">▲</span>
                 </div>
                 <div class="drawer-body" id="schema-body">
                     <div class="terminal" id="schema-log">
-                        <span>&gt; INITIALIZING SCHEMA ENGINE...</span>
+                        <span>> INITIALIZING SCHEMA ENGINE...</span>
                     </div>
                 </div>
             </div>
 
             <!-- Asset Registry -->
-            <div class="panel asset-panel flex-grow">
+            <div class="panel asset-panel">
                 <div class="panel-header">
-                    <span class="panel-title">🗃 ASSET REGISTRY</span>
+                    <span class="panel-title">ASSET REGISTRY</span>
                     <span class="badge">LIVE</span>
                 </div>
                 <div class="table-container">
@@ -74,13 +70,11 @@
 
         </div>
 
-        <!-- ── COLUMN RIGHT ── -->
+        <!-- ── RIGHT SECTION: MAP ── -->
         <div class="col-right">
-
-            <!-- City Map (HERO) -->
             <div class="panel map-hero">
                 <div class="panel-header">
-                    <span class="panel-title">🗺 FORENSIC CITY MAP</span>
+                    <span class="panel-title">FORENSIC CITY MAP</span>
                     <div class="map-legend">
                         <span class="legend-dot green"></span>HEALTHY
                         <span class="legend-dot yellow"></span>UNSTABLE
@@ -89,7 +83,7 @@
                 </div>
                 <div class="map-body">
                     <div id="d3-city-map"></div>
-                    <!-- Inspector slides in from right -->
+                    <!-- Inspector Panel -->
                     <div class="inspector-panel" id="node-inspector">
                         <div class="inspector-close" id="inspector-close">✕</div>
                         <div class="inspector-content">
@@ -98,21 +92,20 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- ── HEATMAP SECTION ── -->
+        <div class="heatmap-strip expanded" id="heatmap-strip">
+            <div class="strip-header" id="heatmap-toggle">
+                <span>📈 SLEEPER HEATMAP — Latency Intelligence Timeline</span>
+                <span class="drawer-arrow" id="heatmap-arrow">▲</span>
+            </div>
+            <div class="strip-body" id="heatmap-body">
+                <canvas id="heatmapChart"></canvas>
+            </div>
         </div>
 
     </main>
-
-    <!-- ═══════════════════ HEATMAP STRIP (collapsible) ═══════════════════ -->
-    <div class="heatmap-strip" id="heatmap-strip">
-        <div class="strip-header" id="heatmap-toggle">
-            <span>📈 SLEEPER HEATMAP — Latency Intelligence Timeline</span>
-            <span class="drawer-arrow" id="heatmap-arrow">▼</span>
-        </div>
-        <div class="strip-body" id="heatmap-body">
-            <canvas id="heatmapChart"></canvas>
-        </div>
-    </div>
 
     <!-- Floating tooltip -->
     <div id="aegis-tooltip" class="aegis-tooltip"></div>

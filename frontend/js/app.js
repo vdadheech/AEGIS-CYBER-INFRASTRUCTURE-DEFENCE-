@@ -59,11 +59,21 @@ function initHeatmapStrip() {
     const toggle = document.getElementById("heatmap-toggle");
     const strip  = document.getElementById("heatmap-strip");
     const arrow  = document.getElementById("heatmap-arrow");
-    let open = false;
+    let open = true; // Start expanded so heatmap is visible
+
+    // Start expanded
+    strip.classList.add("expanded");
+    arrow.textContent = "▲";
+
     toggle.addEventListener("click", () => {
         open = !open;
         strip.classList.toggle("expanded", open);
         arrow.textContent = open ? "▲" : "▼";
+
+        // Trigger Chart.js resize when strip is opened
+        if (open) {
+            window.dispatchEvent(new Event('resize'));
+        }
     });
 }
 
@@ -149,9 +159,19 @@ function onNodeClick(nodeData) {
     const panel = document.getElementById("node-inspector");
     panel.classList.add("open");
 
+    const isQuarantined = nodeData.is_quarantined === 1;
     let badgeClass = "badge-green", label = "HEALTHY";
-    if (nodeData.status_color === "RED")    { badgeClass = "badge-red";    label = "COMPROMISED"; }
-    if (nodeData.status_color === "YELLOW") { badgeClass = "badge-yellow"; label = "UNSTABLE"; }
+
+    if (isQuarantined) {
+        badgeClass = "badge-quarantined";
+        label = "QUARANTINED";
+    } else if (nodeData.status_color === "RED") {
+        badgeClass = "badge-red";
+        label = "COMPROMISED";
+    } else if (nodeData.status_color === "YELLOW") {
+        badgeClass = "badge-yellow";
+        label = "UNSTABLE";
+    }
 
     const flags = [
         nodeData.spoof_flag  ? "⚠ SPOOFING"  : null,
@@ -159,8 +179,15 @@ function onNodeClick(nodeData) {
         nodeData.malware_flag ? "⚠ MALWARE"  : null
     ].filter(Boolean).join("   ") || "None";
 
+    const canQuarantine = nodeData.status_color === "RED" && !isQuarantined;
+    const buttonText = isQuarantined ? "[ NODE ISOLATED ]" : "[ QUARANTINE NODE ]";
+
     panel.querySelector(".inspector-content").innerHTML = `
         <span class="classification-badge ${badgeClass}">${label}</span>
+        <div class="inspector-detail">
+            <label>Node ID</label>
+            <span>N-${nodeData.node_id || "—"}</span>
+        </div>
         <div class="inspector-detail">
             <label>Node Serial</label>
             <span>${nodeData.node_serial || "—"}</span>
@@ -181,16 +208,54 @@ function onNodeClick(nodeData) {
             <label>Active Threats</label>
             <span class="${label === "COMPROMISED" ? "threat-high" : "threat-low"}">${flags}</span>
         </div>
-        <button class="btn-quarantine" id="btn-q" ${label !== "COMPROMISED" ? "disabled" : ""}>
-            [ QUARANTINE NODE ]
+        <button class="btn-quarantine ${isQuarantined ? 'quarantined' : ''}" id="btn-q" ${!canQuarantine ? "disabled" : ""}>
+            ${buttonText}
         </button>
     `;
 
     const btn = document.getElementById("btn-q");
-    if (btn && !btn.disabled) {
-        btn.addEventListener("click", () => {
-            btn.textContent = "[ NODE ISOLATED ]";
+    if (btn && canQuarantine) {
+        btn.addEventListener("click", async () => {
             btn.disabled = true;
+            btn.textContent = "[ ISOLATING... ]";
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/nodes/${nodeData.node_id}/quarantine`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    btn.textContent = "[ NODE ISOLATED ]";
+                    btn.classList.add("quarantined");
+
+                    // Update the badge
+                    const badge = panel.querySelector(".classification-badge");
+                    badge.className = "classification-badge badge-quarantined";
+                    badge.textContent = "QUARANTINED";
+
+                    // Refresh the map to show updated status
+                    await renderForensicCityMap();
+
+                    console.log(`Quarantine success: ${result.message}`);
+                } else {
+                    const error = await response.json();
+                    btn.textContent = "[ QUARANTINE FAILED ]";
+                    console.error("Quarantine failed:", error.detail);
+                    setTimeout(() => {
+                        btn.textContent = "[ QUARANTINE NODE ]";
+                        btn.disabled = false;
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error("Quarantine API error:", err);
+                btn.textContent = "[ CONNECTION ERROR ]";
+                setTimeout(() => {
+                    btn.textContent = "[ QUARANTINE NODE ]";
+                    btn.disabled = false;
+                }, 2000);
+            }
         });
     }
 }

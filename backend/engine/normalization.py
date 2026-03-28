@@ -1,5 +1,6 @@
 import pandas as pd
 import base64
+import binascii
 import logging
 import re
 from pathlib import Path
@@ -24,7 +25,7 @@ def decode_node_registry(registry_df: pd.DataFrame) -> pd.DataFrame:
                 decoded_bytes = base64.b64decode(encoded_str)
                 return decoded_bytes.decode('utf-8')
             return "UNKNOWN_NODE"
-        except Exception:
+        except (binascii.Error, UnicodeDecodeError, ValueError, TypeError):
             return "DECODE_ERROR"
 
     # Apply the decoder to create the true identity column
@@ -36,11 +37,27 @@ def decode_node_registry(registry_df: pd.DataFrame) -> pd.DataFrame:
     logger.info("Node Registry decoded: Base64 hardware serials extracted successfully.")
     return df
 
-def collapse_schema(logs_df: pd.DataFrame, schema_df: pd.DataFrame) -> pd.DataFrame:
+def collapse_schema(logs_df: pd.DataFrame, schema_df: pd.DataFrame | None = None) -> pd.DataFrame:
     """
     Dynamically maps the schema keys based on the 10-minute rotation config.
     """
     df = logs_df.copy()
+
+    # Backward compatibility path for unit tests and ad-hoc use without schema config.
+    if schema_df is None:
+        candidate_cols = [c for c in ['load_val', 'L_V1', 'system_load'] if c in df.columns]
+        if 'system_load' not in df.columns:
+            if candidate_cols:
+                df['system_load'] = df[candidate_cols].bfill(axis=1).iloc[:, 0]
+            else:
+                df['system_load'] = pd.NA
+
+        cols_to_drop = [c for c in ['load_val', 'L_V1'] if c in df.columns]
+        if cols_to_drop:
+            df = df.drop(columns=cols_to_drop)
+
+        logger.info("Schema Normalized: Collapsed fallback schema columns into 'system_load'.")
+        return df
     
     # Sort schema so we process chronologically
     schema_df = schema_df.sort_values(by='time_start')
@@ -106,7 +123,7 @@ def build_master_ledger(clean_logs_path: str, validated_registry_path: str, vali
         
         return master_ledger
 
-    except Exception as e:
+    except (FileNotFoundError, pd.errors.ParserError, pd.errors.EmptyDataError, KeyError, ValueError, OSError) as e:
         logger.error(f"Phase 2 Failed: {str(e)}")
         raise
 

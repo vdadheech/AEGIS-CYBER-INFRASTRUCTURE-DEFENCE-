@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 from pathlib import Path
+import sqlite3
 
 # Set up professional logging to track our data pipeline
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
@@ -54,7 +55,7 @@ def load_all_data(data_dir: str = "data") -> tuple[pd.DataFrame, pd.DataFrame, p
         raw_logs = pd.read_csv(logs_path)
         registry = pd.read_csv(registry_path)
         schemas = pd.read_csv(schema_path)
-    except Exception as e:
+    except (pd.errors.ParserError, pd.errors.EmptyDataError, OSError) as e:
         raise RuntimeError(f"Failed to read CSV files. Error: {str(e)}")
 
     clean_logs = clean_system_logs(raw_logs)
@@ -77,5 +78,5 @@ if __name__ == "__main__":
         logger.info("SUCCESS: All datasets exported to data/processed/")
         print("\n✅ Phase 1 Complete. All 3 Artifacts generated.")
         
-    except Exception as e:
+    except (FileNotFoundError, ValueError, RuntimeError, OSError, sqlite3.Error) as e:
         logger.error(str(e))
