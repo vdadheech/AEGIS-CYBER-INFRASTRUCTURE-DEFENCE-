@@ -21,7 +21,8 @@ NODE_REGISTRY_TABLE = """
 CREATE TABLE IF NOT EXISTS node_registry (
     node_uuid       INTEGER PRIMARY KEY,
     hardware_serial TEXT,
-    is_infected     TEXT
+    is_infected     TEXT,
+    is_quarantined  INTEGER DEFAULT 0
 );
 """
 

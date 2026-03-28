@@ -56,7 +56,8 @@ uvicorn backend.main:app --reload
 ```bash
 cd frontend && python -m http.server 8080
 ```
-Navigate to `http://localhost:8080` in your browser.
+If port 8080 is unavailable, run `python -m http.server 8081` instead.
+Navigate to `http://localhost:8080` (or `http://localhost:8081`) in your browser.
 
 ---
 

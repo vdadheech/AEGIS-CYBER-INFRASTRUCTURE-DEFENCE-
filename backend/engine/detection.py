@@ -49,8 +49,8 @@ def detect_malware(df: pd.DataFrame) -> pd.DataFrame:
         logger.info("Engaging Machine Learning Core for inference...")
         anomalies = AEGISThreatModel.predict_anomalies(df)
         df['flag_malware'] = anomalies
-    except FileNotFoundError:
-        logger.warning("ML Model matrix missing. Falling back to static heuristic rule.")
+    except (FileNotFoundError, KeyError, ValueError):
+        logger.warning("ML inference unavailable for current payload. Falling back to static heuristic rule.")
         median_time = df['response_time_ms'].median()
         malware_threshold = median_time * 3 
         df['flag_malware'] = df['response_time_ms'] > malware_threshold
@@ -78,7 +78,7 @@ def run_threat_detection(ledger_path: str, output_path: str):
         logger.info(f"SUCCESS: Threat Analysis complete. Analyzed ledger saved to {output_path}")
         return df
         
-    except Exception as e:
+    except (FileNotFoundError, pd.errors.ParserError, pd.errors.EmptyDataError, KeyError, ValueError, OSError) as e:
         logger.error(f"Threat Detection Failed: {str(e)}")
         raise
 

@@ -96,15 +96,24 @@ export class CityMap {
     }
 
     _getColorClass(color) {
+        if (color === "QUARANTINED") return "node-quarantined";
         if (color === "RED")    return "node-red";
         if (color === "YELLOW") return "node-yellow";
         return "node-green";
     }
 
     _getBadgeClass(color) {
+        if (color === "QUARANTINED") return "badge-quarantined";
         if (color === "RED")    return "badge-red";
         if (color === "YELLOW") return "badge-yellow";
         return "badge-green";
+    }
+
+    _getNodeRadius(statusColor) {
+        if (statusColor === "QUARANTINED") return 9;
+        if (statusColor === "RED") return 10;
+        if (statusColor === "YELLOW") return 8;
+        return 6;
     }
 
     update(graphData) {
@@ -139,11 +148,11 @@ export class CityMap {
 
         // Animate new nodes appearing
         nodeEnter.transition().duration(400)
-            .attr("r", d => d.original_data.status_color === "RED" ? 10 : 6);
+            .attr("r", d => this._getNodeRadius(d.original_data.status_color));
 
         // Update existing nodes (status changes)
         nodeSel.transition().duration(500)
-            .attr("r", d => d.original_data.status_color === "RED" ? 10 : 6)
+            .attr("r", d => this._getNodeRadius(d.original_data.status_color))
             .attr("class", d => `network-node ${this._getColorClass(d.original_data.status_color)}`);
 
         /* ──── Physics restart ──── */
