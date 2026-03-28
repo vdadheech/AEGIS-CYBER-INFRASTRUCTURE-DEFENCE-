@@ -1,0 +1,67 @@
+/* ═══════════════════════════════════════════
+   AEGIS MAP.CSS — D3 Node Animations & Glows
+   ═══════════════════════════════════════════ */
+
+/* Connection edges */
+.network-link {
+    stroke: rgba(56, 189, 248, 0.15);
+    stroke-width: 1;
+    transition: stroke 0.5s;
+}
+.network-link.active { stroke: rgba(244, 63, 94, 0.5); stroke-width: 1.5; }
+
+/* Base node */
+.network-node {
+    stroke: rgba(0,0,0,0.5);
+    stroke-width: 1px;
+    cursor: pointer;
+    transition: r 0.4s, filter 0.4s;
+}
+.network-node:hover { filter: brightness(1.8); }
+
+/* Healthy nodes — teal glow */
+.node-green {
+    fill: #22d3a5;
+    filter: drop-shadow(0 0 4px rgba(34, 211, 165, 0.6));
+}
+
+/* Warning nodes — yellow glow */
+.node-yellow {
+    fill: #fbbf24;
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6));
+}
+
+/* Compromised nodes — red pulse */
+.node-red {
+    fill: #f43f5e;
+    animation: threat-pulse 1.2s infinite alternate;
+}
+
+@keyframes threat-pulse {
+    from {
+        filter: drop-shadow(0 0 4px rgba(244, 63, 94, 0.5));
+        stroke-width: 1px;
+    }
+    to {
+        filter: drop-shadow(0 0 18px rgba(244, 63, 94, 1));
+        stroke-width: 3px;
+    }
+}
+
+/* Ripple ring animation for compromised nodes */
+.threat-ripple {
+    fill: none;
+    stroke: rgba(244, 63, 94, 0.6);
+    animation: ripple-expand 1.8s infinite;
+    pointer-events: none;
+}
+
+@keyframes ripple-expand {
+    0%   { r: 8; stroke-width: 2; opacity: 0.8; }
+    100% { r: 28; stroke-width: 0.5; opacity: 0; }
+}
+
+/* Tooltip (from style.css) overrides for fixed positioning */
+.aegis-tooltip {
+    transition: opacity 0.15s;
+}
