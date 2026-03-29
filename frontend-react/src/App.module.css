@@ -1,0 +1,77 @@
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: transparent;
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  grid-template-rows: 1fr 280px;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+  height: calc(100vh - 64px);
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.colLeft {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: 0;
+  height: 100%;
+}
+
+.colRight {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.heatmapRow {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 0;
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.focused {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.focused .colLeft,
+.focused .colRight,
+.focused .heatmapRow {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+@media (max-width: 1200px) {
+  .app { height: auto; overflow: auto; }
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 500px auto;
+    height: auto;
+  }
+  .colLeft { grid-column: 1; grid-row: 3; }
+  .colRight { grid-column: 1; grid-row: 1; }
+  .heatmapRow { grid-column: 1; grid-row: 2; }
+}

@@ -1,0 +1,40 @@
+.tooltip {
+  display: none;
+  position: fixed;
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+  font-family: var(--font-mono);
+  font-size: var(--text-card-title);
+  min-width: 200px;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+  animation: fade-in 0.15s ease;
+}
+
+.tooltip.visible {
+  display: block;
+}
+
+.header {
+  font-weight: var(--weight-semibold);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.healthy   { color: var(--status-healthy); }
+.unstable  { color: var(--status-warning); }
+.compromised { color: var(--status-critical); }
+
+.body div {
+  margin-bottom: var(--space-1);
+  color: var(--text-muted);
+}
+
+.body span {
+  color: var(--text-primary);
+}

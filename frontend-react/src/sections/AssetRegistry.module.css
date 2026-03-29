@@ -1,0 +1,89 @@
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.tableContainer {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.table thead th {
+  font-size: 11px;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-muted);
+  background: rgba(2, 6, 23, 0.95);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.table tbody td {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-primary);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  transition: background var(--transition-fast);
+  cursor: default;
+}
+
+.table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.table tbody tr.selected {
+  background: var(--accent-glow);
+}
+
+.threatHigh {
+  color: var(--status-critical) !important;
+  font-weight: var(--weight-medium);
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.threatWarn {
+  color: var(--status-warning) !important;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.threatLow {
+  color: var(--text-muted) !important;
+}
+
+.emptyState {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  text-align: center;
+  padding: var(--space-10) var(--space-4);
+}
+
+.errorState {
+  color: var(--status-critical);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  text-align: center;
+  padding: var(--space-10) var(--space-4);
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}

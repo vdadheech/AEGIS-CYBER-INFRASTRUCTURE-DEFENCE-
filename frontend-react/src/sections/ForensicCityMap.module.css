@@ -1,0 +1,88 @@
+.mapContainer {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+/* SVG specific overrides out of global map.css for isolation */
+:global(.network-link) {
+  stroke: var(--border-strong);
+  stroke-width: 1px;
+  stroke-opacity: 0.4;
+}
+
+:global(.network-node) {
+  stroke: var(--bg-surface);
+  stroke-width: 1.5px;
+  /* CRITICAL: ONLY transition coloring. Transitioning cx/cy crashes FPS in D3 */
+  transition: fill 0.3s ease, stroke 0.3s ease, r 0.3s ease; 
+}
+
+:global(.node-green) { fill: var(--status-healthy); }
+:global(.node-yellow) { fill: var(--status-warning); }
+:global(.node-red) { fill: var(--status-critical); }
+:global(.node-quarantined) { fill: var(--text-muted); stroke-dasharray: 2, 2; }
+
+:global(.threat-ripple) {
+  fill: none;
+  stroke: var(--status-critical);
+  stroke-width: 1.5px;
+  opacity: 0;
+  pointer-events: none;
+  animation: map-ripple 2s infinite cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.mapSvg {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  cursor: grab;
+}
+
+.mapSvg:active {
+  cursor: grabbing;
+}
+
+.legend {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: var(--bg-elevated);
+  padding: 8px var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--text-tiny);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.legendDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+}
+
+.dotGreen { background: var(--status-healthy); }
+.dotYellow { background: var(--status-warning); }
+.dotRed { background: var(--status-critical); }

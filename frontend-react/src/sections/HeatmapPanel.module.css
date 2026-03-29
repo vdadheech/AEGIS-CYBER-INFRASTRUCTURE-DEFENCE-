@@ -1,0 +1,26 @@
+.wrapper {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.chartBody {
+  height: 176px;
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-base);
+}
+
+.chartBody canvas {
+  width: 100% !important;
+  height: 152px !important;
+}
+
+.errorState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-card-title);
+}
