@@ -21,7 +21,15 @@
 
 | Forensic Map | Anomaly Heatmap | Asset Registry |
 |:---:|:---:|:---:|
-| ![Map](assets/map.png) | ![Heatmap](assets/heatmap.png) | ![Table](assets/table.png) |
+| ![Map](citymap.png) | ![Heatmap](heatmap.png) | ![Table](table.png) |
+
+---
+
+## 📄 Project Report
+
+For a detailed breakdown of the architecture, design decisions, and implementation:
+
+🔗 **[View Full Report (Google Docs)](https://docs.google.com/document/d/1lpRayJaaRv436C8fP0GrqL8-LCs9SOcPO_gbq3K41OQ/edit?tab=t.0#heading=h.o8m2wwwrn1mb)**
 
 ---
 
