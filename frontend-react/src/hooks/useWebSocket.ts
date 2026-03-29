@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import type { WebSocketEvent } from '../types';
 
-const WS_URL = 'ws://127.0.0.1:8000/ws/telemetry';
+const WS_URL = import.meta.env.VITE_WS_URL || 'wss://aegis-cyber-infrastructure-defence-9.onrender.com/ws/telemetry';
 
 interface UseWebSocketOptions {
   onLog?: (logId: number, responseTimeMs: number) => void;
