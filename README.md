@@ -94,11 +94,11 @@ Traditional security tools fail to detect **Command & Control (C2)** infrastruct
 
 ```
 ┌─────────────────────────────────────┐
-│  Graph Analytics    → Centrality   │
-│  Temporal Engine    → Beaconing    │
-│  Header Fingerprint → Non-human    │
+│  Graph Analytics    → Centrality    │
+│  Temporal Engine    → Beaconing     │
+│  Header Fingerprint → Non-human     │
 │  ─────────────────────────────────  │
-│  Attribution Score  → 0-100%       │
+│  Attribution Score  → 0-100%        │
 └─────────────────────────────────────┘
 ```
 
@@ -120,7 +120,7 @@ Traditional security tools fail to detect **Command & Control (C2)** infrastruct
 │  │  (WebGL)  │  ├────────────────┤  │
 │  │           │  │ Node Inspector │  │
 │  └───────────┘  └────────────────┘  │
-│  [ Global Controls: Time | Filter ]  │
+│  [ Global Controls: Time | Filter ] │
 └─────────────────────────────────────┘
 ```
 
@@ -201,33 +201,33 @@ confidence = (
 ```
                                  ┌─────────────────────────────────────────┐
                                  │         AEGIS FRONTEND (React 19)       │
-                                 │  ┌─────────────────────────────────────┐ │
+                                 │  ┌────────────────────────────────────┐ │ 
                                  │  │  WebGL Force Graph │ Scatter Plot  │ │
                                  │  │  Node Inspector    │ Kill Switch   │ │
                                  │  │  Global Controls   │ Threat Legend │ │
-                                 │  └─────────────────────────────────────┘ │
-                                 │          Zustand State Management        │
+                                 │  └────────────────────────────────────┘ │
+                                 │          Zustand State Management       │
                                  └────────────────┬────────────────────────┘
                                                   │ REST API / WebSocket
                                                   ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
-│                              AEGIS BACKEND (FastAPI)                                 │
+│                              AEGIS BACKEND (FastAPI)                                │
 │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐     │
 │  │   Graph API    │  │  Telemetry API │  │   Threat API   │  │   WebSocket    │     │
 │  │  /api/v1/graph │  │  /api/telemetry│  │  /api/threats  │  │  Real-time     │     │
 │  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘     │
 │          └───────────────────┴───────────────────┴───────────────────┘              │
-│                                          │                                           │
+│                                          │                                          │
 │  ┌───────────────────────────────────────┴──────────────────────────────────────┐   │
-│  │                        ASYNC PROCESSING PIPELINE                              │   │
+│  │                        ASYNC PROCESSING PIPELINE                             │   │
 │  │   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │   │
 │  │   │   Ingestion  │→ │   Analysis   │→ │  Attribution │→ │   Broadcast  │     │   │
 │  │   │   Workers    │  │   Workers    │  │   Scorer     │  │   Workers    │     │   │
 │  │   └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘     │   │
 │  └──────────────────────────────────────────────────────────────────────────────┘   │
-│                                          │                                           │
+│                                          │                                          │
 │  ┌───────────────────────────────────────┴──────────────────────────────────────┐   │
-│  │                          DETECTION ENGINES                                    │   │
+│  │                          DETECTION ENGINES                                   │   │
 │  │   ┌────────────────┐  ┌────────────────┐  ┌────────────────┐                 │   │
 │  │   │ Graph Engine   │  │ Temporal Engine│  │ Header Engine  │                 │   │
 │  │   │ (NetworkX)     │  │ (Beaconing)    │  │ (Fingerprint)  │                 │   │
@@ -241,14 +241,14 @@ confidence = (
                                           │
                     ┌─────────────────────┴─────────────────────┐
                     ▼                                           ▼
-          ┌─────────────────┐                       ┌─────────────────┐
-          │   SQLite DB     │                       │   ML Models     │
-          │                 │                       │                 │
-          │ • telemetry_logs│                       │ • Isolation     │
-          │ • node_registry │                       │   Forest        │
-          │ • schema_versions│                      │ • Anomaly       │
-          └─────────────────┘                       │   Detection     │
-                                                    └─────────────────┘
+          ┌──────────────────┐                       ┌─────────────────┐
+          │   SQLite DB      │                       │   ML Models     │
+          │                  │                       │                 │
+          │ • telemetry_logs │                       │ • Isolation     │
+          │ • node_registry  │                       │   Forest        │
+          │ • schema_versions│                       │ • Anomaly       │
+          └──────────────────┘                       │   Detection     │
+                                                     └─────────────────┘
 ```
 
 ---
@@ -461,7 +461,7 @@ Delta (ms)
 
 ```
 ┌─────────────────────────────────────┐
-│ ⚠️ 45.33.128.42                     │
+│ ⚠️ 45.33.128.42                    │
 │ Status: SHADOW CONTROLLER           │
 ├─────────────────────────────────────┤
 │ C2 Confidence                       │
@@ -471,12 +471,12 @@ Delta (ms)
 │ Beacon: 500ms      Header: 0xDEAD   │
 ├─────────────────────────────────────┤
 │ ATTRIBUTION REASONS:                │
-│ • ⚠️ SHADOW CONTROLLER              │
+│ • ⚠️SHADOW CONTROLLER               │
 │ • Star topology center              │
 │ • Rigid timing (500ms ± 2%)         │
 │ • Suspicious IP range               │
 ├─────────────────────────────────────┤
-│ [🛡️ Block Rule]  [⚡ Isolate Node]  │
+│ [🛡️ Block Rule]  [⚡ Isolate Node] │
 └─────────────────────────────────────┘
 ```
 
