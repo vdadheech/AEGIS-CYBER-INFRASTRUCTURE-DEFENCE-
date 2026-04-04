@@ -6,6 +6,7 @@ import { ForensicCityMap } from './sections/ForensicCityMap';
 import { NodeInspector } from './sections/NodeInspector';
 import { HeatmapPanel, type HeatmapPanelRef } from './sections/HeatmapPanel';
 import { Tooltip, useTooltip } from './sections/Tooltip';
+import { C2Dashboard } from './components/ui/c2dashboard/C2Dashboard-NoTailwind';
 import { useWebSocket } from './hooks/useWebSocket';
 import type { CityMapNode } from './types';
 import styles from './App.module.css';
@@ -55,9 +56,24 @@ export default function App() {
   }, []);
 
   const isOverview = activeTab === 'Overview';
+  const isAttribution = activeTab === 'Attribution';
   const showMap = isOverview || activeTab === 'Defense Map';
   const showEndpoints = isOverview || activeTab === 'Endpoints';
   const showForensics = isOverview || activeTab === 'Forensics';
+
+  // Show Attribution Dashboard (full screen)
+  if (isAttribution) {
+    return (
+      <div className={styles.app}>
+        <Header 
+          threatCount={threatCount} 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
+        <C2Dashboard scale={1.5} />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.app}>

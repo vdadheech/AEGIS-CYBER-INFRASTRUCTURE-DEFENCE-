@@ -22,12 +22,13 @@ export function Header({ threatCount, activeTab, onTabChange }: HeaderProps) {
       </div>
 
       <nav className={styles.navTabs}>
-        {['Overview', 'Defense Map', 'Endpoints', 'Forensics'].map((tab) => (
+        {['Overview', 'Defense Map', 'Endpoints', 'Forensics', 'Attribution'].map((tab) => (
           <div
             key={tab}
             onClick={() => onTabChange(tab)}
-            className={`${styles.navItem} ${activeTab === tab ? styles.active : ''}`}
+            className={`${styles.navItem} ${activeTab === tab ? styles.active : ''} ${tab === 'Attribution' ? styles.attribution : ''}`}
           >
+            {tab === 'Attribution' && <span className={styles.newBadge}>NEW</span>}
             {tab}
           </div>
         ))}

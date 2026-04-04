@@ -89,3 +89,20 @@
   align-items: center;
   gap: 6px;
 }
+
+.attribution {
+  position: relative;
+}
+
+.newBadge {
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
