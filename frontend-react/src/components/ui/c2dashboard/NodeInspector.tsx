@@ -60,7 +60,7 @@ function MetricCard({ icon: Icon, label, value, color = 'text-gray-400' }: {
 }
 
 export function NodeInspector() {
-  const { getSelectedNode, selectedNodeId, openKillSwitch } = useThreatStore();
+  const { getSelectedNode, selectedNodeId, openKillSwitch, openIsolate, isNodeIsolated } = useThreatStore();
   const node = getSelectedNode();
 
   if (!selectedNodeId || !node) {
@@ -87,6 +87,7 @@ export function NodeInspector() {
 
   const isHighThreat = node.confidence >= 50;
   const isCritical = node.confidence >= 80;
+  const isolated = isNodeIsolated(node.id);
 
   return (
     <AnimatePresence mode="wait">
@@ -231,11 +232,16 @@ export function NodeInspector() {
                 Generate Block Rule
               </button>
               <button
-                onClick={() => openKillSwitch(node)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-colors"
+                onClick={() => openIsolate(node)}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-white font-semibold rounded-xl transition-colors ${
+                  isolated
+                    ? 'bg-gray-600 cursor-not-allowed'
+                    : 'bg-orange-600 hover:bg-orange-700'
+                }`}
+                disabled={isolated}
               >
                 <Zap className="w-5 h-5" />
-                Isolate Node
+                {isolated ? 'Node Isolated' : 'Isolate Node'}
               </button>
             </div>
           </div>

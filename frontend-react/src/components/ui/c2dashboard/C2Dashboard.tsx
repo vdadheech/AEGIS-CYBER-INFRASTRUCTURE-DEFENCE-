@@ -27,6 +27,7 @@ import { BeaconingScatter } from './BeaconingScatter';
 import { NodeInspector } from './NodeInspector';
 import { GlobalControls } from './GlobalControls';
 import { KillSwitchModal } from './KillSwitchModal';
+import { IsolateNodeModal } from './IsolateNodeModal';
 import { ThreatLegend } from './ThreatLegend';
 import { useThreatStore } from './useThreatStore';
 import { generateMockData, generateLargeDataset } from './mockDataGenerator';
@@ -234,6 +235,7 @@ export function C2Dashboard({
 
       {/* Kill Switch Modal */}
       <KillSwitchModal />
+      <IsolateNodeModal />
     </div>
   );
 }

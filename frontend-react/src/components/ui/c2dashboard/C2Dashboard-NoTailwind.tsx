@@ -8,6 +8,7 @@ import { BeaconingScatter } from './BeaconingScatter-NoTailwind';
 import { NodeInspector } from './NodeInspector-NoTailwind';
 import { GlobalControls } from './GlobalControls-NoTailwind';
 import { KillSwitchModal } from './KillSwitchModal-NoTailwind';
+import { IsolateNodeModal } from './IsolateNodeModal-NoTailwind';
 import { ThreatLegend } from './ThreatLegend-NoTailwind';
 import { useThreatStore } from './useThreatStore';
 import { generateMockData } from './mockDataGenerator';
@@ -197,6 +198,7 @@ export function C2Dashboard({ scale = 1.5 }: { scale?: number }) {
       </div>
 
       <KillSwitchModal />
+      <IsolateNodeModal />
     </div>
   );
 }

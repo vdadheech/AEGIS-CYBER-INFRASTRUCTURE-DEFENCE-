@@ -16,6 +16,9 @@ export interface ThreatState {
   isStreaming: boolean;
   showKillSwitchModal: boolean;
   killSwitchTarget: ThreatNode | null;
+  showIsolateModal: boolean;
+  isolateTarget: ThreatNode | null;
+  isolatedNodeIds: Set<string>;
   totalNodes: number;
   criticalCount: number;
   elevatedCount: number;
@@ -29,6 +32,10 @@ export interface ThreatState {
   setTimeRange: (range: TimeRange) => void;
   openKillSwitch: (node: ThreatNode) => void;
   closeKillSwitch: () => void;
+  openIsolate: (node: ThreatNode) => void;
+  closeIsolate: () => void;
+  isolateNode: (id: string) => void;
+  isNodeIsolated: (id: string) => boolean;
   setStreaming: (streaming: boolean) => void;
   reset: () => void;
   getFilteredNodes: () => ThreatNode[];
@@ -48,6 +55,9 @@ export const useThreatStore = create<ThreatState>()((set, get) => ({
   isStreaming: false,
   showKillSwitchModal: false,
   killSwitchTarget: null,
+  showIsolateModal: false,
+  isolateTarget: null,
+  isolatedNodeIds: new Set(),
   totalNodes: 0,
   criticalCount: 0,
   elevatedCount: 0,
@@ -88,9 +98,34 @@ export const useThreatStore = create<ThreatState>()((set, get) => ({
   setTimeRange: (range) => set({ timeRange: range }),
   openKillSwitch: (node) => set({ showKillSwitchModal: true, killSwitchTarget: node }),
   closeKillSwitch: () => set({ showKillSwitchModal: false, killSwitchTarget: null }),
+  openIsolate: (node) => set({ showIsolateModal: true, isolateTarget: node }),
+  closeIsolate: () => set({ showIsolateModal: false, isolateTarget: null }),
+  isolateNode: (id) => set((state) => {
+    const node = state.nodes.get(id);
+    if (!node) return state;
+
+    const newNodes = new Map(state.nodes);
+    const newIsolatedNodeIds = new Set(state.isolatedNodeIds);
+    const isolateReason = '🔒 NODE ISOLATED BY OPERATOR';
+
+    newIsolatedNodeIds.add(id);
+    newNodes.set(id, {
+      ...node,
+      reasons: node.reasons.includes(isolateReason) ? node.reasons : [isolateReason, ...node.reasons],
+    });
+
+    return {
+      nodes: newNodes,
+      isolatedNodeIds: newIsolatedNodeIds,
+      showIsolateModal: false,
+      isolateTarget: null,
+    };
+  }),
+  isNodeIsolated: (id) => get().isolatedNodeIds.has(id),
   setStreaming: (streaming) => set({ isStreaming: streaming }),
   reset: () => set({
     nodes: new Map(), links: [], selectedNodeId: null, hoveredNodeId: null,
+    showIsolateModal: false, isolateTarget: null, isolatedNodeIds: new Set(),
     totalNodes: 0, criticalCount: 0, elevatedCount: 0,
   }),
 

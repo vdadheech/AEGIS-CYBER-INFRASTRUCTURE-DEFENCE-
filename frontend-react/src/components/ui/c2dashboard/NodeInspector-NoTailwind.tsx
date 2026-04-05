@@ -260,6 +260,8 @@ export function NodeInspector() {
   const selectedNodeId = useThreatStore(state => state.selectedNodeId);
   const getSelectedNode = useThreatStore(state => state.getSelectedNode);
   const openKillSwitch = useThreatStore(state => state.openKillSwitch);
+  const openIsolate = useThreatStore(state => state.openIsolate);
+  const isNodeIsolated = useThreatStore(state => state.isNodeIsolated);
   const node = getSelectedNode();
 
   if (!selectedNodeId || !node) {
@@ -288,6 +290,7 @@ export function NodeInspector() {
 
   const isHighThreat = node.confidence >= 50;
   const isCritical = node.confidence >= 80;
+  const isolated = isNodeIsolated(node.id);
   
   const getConfidenceColor = () => {
     if (isCritical) return '#ef4444';
@@ -384,13 +387,22 @@ export function NodeInspector() {
             Generate Block Rule
           </button>
           <button
-            onClick={() => openKillSwitch(node)}
-            style={styles.actionButton('warning')}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#c2410c'}
-            onMouseLeave={(e) => e.currentTarget.style.background = '#ea580c'}
+            onClick={() => openIsolate(node)}
+            style={
+              isolated
+                ? { ...styles.actionButton('warning'), background: '#4b5563', cursor: 'not-allowed' }
+                : styles.actionButton('warning')
+            }
+            disabled={isolated}
+            onMouseEnter={(e) => {
+              if (!isolated) e.currentTarget.style.background = '#c2410c';
+            }}
+            onMouseLeave={(e) => {
+              if (!isolated) e.currentTarget.style.background = '#ea580c';
+            }}
           >
             <Zap style={{ width: '20px', height: '20px' }} />
-            Isolate Node
+            {isolated ? 'Node Isolated' : 'Isolate Node'}
           </button>
         </div>
       )}
