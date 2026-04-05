@@ -448,24 +448,24 @@ Delta (ms)
 ### 3. Node Inspector Panel
 
 ```
-┌─────────────────────────────────────┐
-│ ⚠️ 45.33.128.42                    │
-│ Status: SHADOW CONTROLLER           │
-├─────────────────────────────────────┤
-│ C2 Confidence                       │
-│ ████████████████████████░░ 94.2%    │
-├─────────────────────────────────────┤
-│ Connections: 23    Centrality: 0.89 │
-│ Beacon: 500ms      Header: 0xDEAD   │
-├─────────────────────────────────────┤
-│ ATTRIBUTION REASONS:                │
-│ • ⚠️SHADOW CONTROLLER               │
-│ • Star topology center              │
-│ • Rigid timing (500ms ± 2%)         │
-│ • Suspicious IP range               │
-├─────────────────────────────────────┤
-│ [🛡️ Block Rule]  [⚡ Isolate Node] │
-└─────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│ 45.33.128.42                         │
+│ Status: SHADOW CONTROLLER            │
+├──────────────────────────────────────┤
+│ C2 Confidence                        │
+│ ████████████████████████░░ 94.2%     │
+├──────────────────────────────────────┤
+│ Connections: 23    Centrality: 0.89  │
+│ Beacon: 500ms      Header: 0xDEAD    │
+├──────────────────────────────────────┤
+│ ATTRIBUTION REASONS:                 │
+│ • SHADOW CONTROLLER                  │
+│ • Star topology center               │
+│ • Rigid timing (500ms ± 2%)          │
+│ • Suspicious IP range                │
+├──────────────────────────────────────┤
+│ [🛡️ Block Rule]  [⚡ Isolate Node]  │
+└──────────────────────────────────────┘
 ```
 
 ### 4. Kill Switch Modal
