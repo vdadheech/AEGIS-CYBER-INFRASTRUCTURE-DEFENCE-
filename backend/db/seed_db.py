@@ -131,7 +131,7 @@ def seed_all():
 
     for p in [ledger_path, registry_path, schema_path]:
         if not p.exists():
-            logger.error(f"Missing required file: {p}. Run the engine pipeline first.")
+            logger.warning(f"Missing required file: {p}. Run the engine pipeline first.")
             return
 
     seed_telemetry(conn, ledger_path)
