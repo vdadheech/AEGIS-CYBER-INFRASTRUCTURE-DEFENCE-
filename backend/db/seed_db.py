@@ -1,13 +1,13 @@
 """
 Seed script: reads processed CSVs and inserts them into the AEGIS SQLite database.
-Run with:  python -m backend.db.seed_db
+Run with: python -m db.seed_db
 """
 
 import csv
 import logging
 from pathlib import Path
-from backend.config import PROCESSED_DIR
-from backend.db.database import init_db, get_db
+from config import PROCESSED_DIR
+from db.database import init_db, get_db
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
